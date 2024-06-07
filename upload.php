@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         }
 
                         function extrair_confronto($texto) {
-                            preg_match('/[A-Z][A-Za-z\s]+\s-\s[A-Z][A-Za-z\s]+/', $texto, $matches);
+                            preg_match('/\b[A-Z\s]+\(Fem\)\s-\s[A-Z\s]+\(Fem\)\b/', $texto, $matches);
                             return $matches[0] ?? 'Confronto não encontrado';
                         }
 
@@ -118,8 +118,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                         // Escreve os dados no arquivo Excel
                         foreach ($entries as $rowIndex => $row) {
-                            foreach ($row as $colIndex => $value) {
-                                $sheet->setCellValueByColumnAndRow($colIndex + 1, $rowIndex + 1, $value);
+                            $colIndex = 'A';
+                            foreach ($row as $value) {
+                                $sheet->setCellValue($colIndex . ($rowIndex + 1), $value);
+                                $colIndex++;
                             }
                         }
 
